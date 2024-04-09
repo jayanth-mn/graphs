@@ -1,0 +1,55 @@
+import java.util.List;
+
+import java.util.Queue;
+import java.util.LinkedList;
+
+public class Solution {
+    static class Pair {
+        int first;
+        int second;
+
+        Pair(int _first, int _second) {
+            this.first = _first;
+            this.second = _second;
+        }
+    }
+    static class Graph {
+        boolean checkforcycle(int src, int V, List<List<Integer>> adj , boolean [] vis){
+            vis[src]=true;
+            Queue <Pair> q =  new LinkedList<>();
+            q.add(new Pair(src, -1));
+            while (!q.isEmpty()){
+                int node = q.peek().first;
+                int parent = q.peek().second;
+                q.remove();
+                for (int it: adj.get(node)){
+                    if (vis[it]==false){
+                        vis[it]=true;
+                        q.add(new Pair(it,node));
+                    }
+                    else if(parent!=it){
+                        return true;
+                    }
+                }
+            }
+            return false;
+        }
+        boolean detectCycle(int V, List<List<Integer>> adj) {
+            // Write your code here.
+            boolean vis[] = new boolean[V];
+            for (int i =0; i<V; i++){
+                vis[i]= false;
+
+            }
+            for (int i =0; i<V; i++){
+                if (vis[i]==false){
+                    if (checkforcycle(i, V, adj, vis)) return true;
+                }
+
+            }
+            return false;
+
+
+        }
+    };
+}
